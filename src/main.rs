@@ -1,9 +1,7 @@
-mod handler;
-
-use handler::handler::Handler;
-
-use anyhow::anyhow;
-use serenity::{prelude::GatewayIntents, Client};
+mod commands;
+mod events;
+mod handlers;
+mod utils;
 
 #[shuttle_runtime::main]
 async fn serenity(
@@ -12,12 +10,13 @@ async fn serenity(
     let token = if let Some(token) = secret_store.get("DISCORD_BOT_TOKEN") {
         token
     } else {
-        return Err(anyhow!("'DISCORD_BOT_TOKEN' was not found").into());
+        return Err(anyhow::anyhow!("'DISCORD_BOT_TOKEN' was not found").into());
     };
-    let intents = GatewayIntents::all();
 
-    let client = Client::builder(token, intents)
-        .event_handler(Handler)
+    let intents = serenity::all::GatewayIntents::all();
+
+    let client = serenity::Client::builder(token, intents)
+        .event_handler(handlers::handler::Handler)
         .await
         .expect("Err creating client");
 
