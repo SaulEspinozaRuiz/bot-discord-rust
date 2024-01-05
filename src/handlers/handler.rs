@@ -15,8 +15,6 @@ impl EventHandler for Handler {
     async fn ready(&self, ctx: Context, ready: Ready) {
         commands::register_commands(&ctx).await;
 
-        ctx.set_activity(ActivityData::custom("Probando...").into());
-
         info!("{} is connected", ready.user.name);
     }
 
