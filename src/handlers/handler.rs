@@ -1,7 +1,6 @@
 use serenity::{
     async_trait,
     client::{Context, EventHandler},
-    gateway::ActivityData,
     model::prelude::*,
 };
 use tracing::info;
