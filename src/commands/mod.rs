@@ -24,6 +24,12 @@ pub async fn run_command(ctx: &Context, interaction: CommandInteraction) {
         // Misc
         "ping" => misc::ping::run(&ctx, interaction).await,
 
-        _ => error!("Cannot execute command"),
+        _ => {
+            Command::delete_global_command(&ctx.http, interaction.data.id)
+                .await
+                .unwrap();
+
+            error!("Cannot execute command");
+        }
     }
 }
